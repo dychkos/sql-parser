@@ -23,7 +23,8 @@ function parseSql(){
     let sql = sqlInput.value;
     let parsed = sqlParser(sql,options);
  
-    resultTable.innerHTML = `  
+    resultDiv.innerHTML = `  
+    <table  class="table">
     <thead>
         <th>Позиция</th>
         <th>Токен</th>
@@ -32,17 +33,9 @@ function parseSql(){
         <th>Длина</th>
     </thead>
     <tbody>
-    ${parsed.map(pr=>{
-        return`<tr>
-        <td>${pr.pos}</td>
-        <td>${pr.token}</td>
-        <td>${pr.lex}</td>
-        <td>${pr.start}</td>
-        <td>${pr.len}</td>
-        </tr>`
-        
-    })}  
-    </tbody>`;
+    ${toHtml(parsed)}  
+    </tbody>
+    </table>`;
     resultDiv.appendChild(resultTable);
     console.log(resultTable.innerHTML);
     
@@ -118,6 +111,23 @@ function sqlParser (str,options) {
     }
     return result;
    
+}
+
+function toHtml(parsedSQL){
+    let html="";
+    
+    for(let parsedItem of parsedSQL){
+        html+=`<tr>
+        <td>${parsedItem.pos}</td>
+        <td>${parsedItem.token}</td>
+        <td>${parsedItem.lex}</td>
+        <td>${parsedItem.start}</td>
+        <td>${parsedItem.len}</td>
+        </tr>`
+    }
+
+    return html;
+
 }
 
 
