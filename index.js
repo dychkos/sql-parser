@@ -1,12 +1,12 @@
 
 let options = {
     SYMBOL:/[\])}\'[{(]/,
-    KEYWORDS:/^select$|^from$|^where$|^group by$|^union$|^intersect$|^insert$|^into$|^create$|^drop$|^descrive$|^table$|^update$|^delete$|^integer$|^text$|^distinct$|^having$|^order by$|^between$|^like$|^join$|^in$|^view$/i,
+    KEYWORDS:/^union$|^intersect$|^values$|^insert$|^into$|^create$|^drop$|^descrive$|^table$|^update$|^delete$|^integer$|^text$|^distinct$|^having$|^order by$|^between$|^like$|^join$|^in$|^view$/i,
     id2s: /^[a-z]+-\w+/i,
     id1s: /^[_a-z]+\w+/i,    
     LITERALS:/^[\u0400-\u052F\u2DE0-\u2DFF\uA640-\uA69F']+$/, 
     NUMS: /\d+/,
-    OPERATORS:/^(\+|-|\*|\/|=|:=|>|<|>=|<=|&|\||%|!|\^|\(|\))$/
+    OPERATORS:/^(\+|-|\*|\/|=|:=|>|<|>=|<=|&|\||%|!|\^)$/
 
 }
 
@@ -47,8 +47,7 @@ function sqlParser (str,options) {
     let lexems = str.split(" ");
     let result = [];
     let startPosition = 1;
-    console.log(lexems);
-    
+
     for(let i = 0;i<lexems.length;++i){ 
         for (var key in options) {         
             if(lexems[i].match(options[key])){
@@ -62,52 +61,11 @@ function sqlParser (str,options) {
                     len:lexems[i].match(options[key])[0].length,
                     pos:i+1
                 })
-                if(key!=="SYMBOL"){
-                    break;
-                }                  
+                break;         
             }
           }
 
-        // if(lexems[i].match(options.KEYWORDS)){
-          
-        // }else if(lexems[i].match(options.id1s)){
-        //     result.push({
-        //         token:"ID",
-        //         lex:lexems[i].match(options.id1s)[0],
-        //         start:lexems[i].match(options.id1s)["index"],
-        //         len:lexems[i].match(options.id1s)[0].length,
-        //         pos:i
-        //     })
-                       
-        // }
-        // else if(lexems[i].match(options.id2s)){
-        //     result.push({
-        //         token:"ID2",
-        //         lex:lexems[i].match(options.id2s)[0],
-        //         start:lexems[i].match(options.id2s)["index"],
-        //         len:lexems[i].match(options.id2s)[0].length,
-        //         pos:i
-        //     })
-                       
-        // }else if(lexems[i].match(options.NUMS)){
-        //     result.push({
-        //         token:"NUM",
-        //         lex:lexems[i].match(options.NUMS)[0],
-        //         start:lexems[i].match(options.NUMS)["index"],
-        //         len:lexems[i].match(options.NUMS)[0].length,
-        //         pos:i
-        //     })            
-        // }
-        // else if(lexems[i].match(options.OPERATORS)){
-        //     result.push({
-        //         token:"OPEATORS",
-        //         lex:lexems[i].match(options.OPERATORS)[0],
-        //         start:lexems[i].match(options.OPERATORS)["index"],
-        //         len:lexems[i].match(options.OPERATORS)[0].length,
-        //         pos:i
-        //     })            
-        // }
-       
+      
     }
     return result;
    
@@ -131,6 +89,3 @@ function toHtml(parsedSQL){
 }
 
 
-console.log(
-    sqlParser("Insert into CYCLE values (1, 'Цикл ГСЕ дисциплін вибору')",options)
-    );
